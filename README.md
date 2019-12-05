@@ -19,15 +19,15 @@ This is the root repository of setting up new, and standardized R projects for (
 	/My-project
 		/input							(data files)
 			/my-data-set.csv
-		/R								(code)
+		/R							(code)
 			/load.R 					(data import)
 			/clean.R 					(data cleanup)
-			/fucntion.R 				(defined functions)
-			/analysis.R 				(pipeline)
+			/fucntion.R 					(defined functions)
+			/analysis.R 					(pipeline)
 			/grapics.R 					(post processing)
 		/output
-			/session-2019-12-04			(session ID)
-				/data-p-values.txt		(resulted txt files)
+			/session-2019-12-04				(session ID)
+				/data-p-values.txt			(resulted txt files)
 				/graphics				(resulted images)
 					/histogram-stuff.png
 
