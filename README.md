@@ -1,6 +1,6 @@
 # R-project-blank
 
-[![GitHub License](https://img.shields.io/github/license/Rrtk2/R-project-blank)](https://github.com/Rrtk2/R-project-blank/blob/master/LICENSE.md) ![](https://img.shields.io/badge/Status-Final-brightgreen) [![GitHub Watches](https://img.shields.io/github/watchers/Rrtk2/R-project-blank.svg?style=social&label=Watch&maxAge=2592000)](https://github.com/Rrtk2/R-project-blank/watchers) 
+[![GitHub License](https://img.shields.io/github/license/Rrtk2/R-project-blank)](https://github.com/Rrtk2/R-project-blank/blob/master/LICENSE.md) ![](https://img.shields.io/badge/Status-Setting_up-orange) [![GitHub Watches](https://img.shields.io/github/watchers/Rrtk2/R-project-blank.svg?style=social&label=Watch&maxAge=2592000)](https://github.com/Rrtk2/R-project-blank/watchers) 
 
 
 #### What is this project about
