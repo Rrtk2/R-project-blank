@@ -14,22 +14,21 @@ This is the root repository of setting up new, and standardized R projects for (
 ##### Where does data come from?
 
 ##### How is data shared, in what format, with what protocols?
-Using the tool developed in this project, data is shared using the [wikidata-sdk](https://www.wikidata.org/w/api.php). 
 
-##### Workflow
+##### Workflow stucture
 	/My-project
-		/input	(data files)
+		/input							(data files)
 			/my-data-set.csv
-		/R		(code)
-			/load.R (data import)
-			/clean.R (data cleanup)
-			/fucntion.R (defined functions)
-			/analysis.R (pipeline)
-			/grapics.R (post processing)
+		/R								(code)
+			/load.R 					(data import)
+			/clean.R 					(data cleanup)
+			/fucntion.R 				(defined functions)
+			/analysis.R 				(pipeline)
+			/grapics.R 					(post processing)
 		/output
-			/session-2019-12-04
-				/data-p-values.txt
-				/graphics
+			/session-2019-12-04			(session ID)
+				/data-p-values.txt		(resulted txt files)
+				/graphics				(resulted images)
 					/histogram-stuff.png
 
 
@@ -48,7 +47,7 @@ RRtK2 (owner and contributor)
 
 
 #### Status of project
-Setting up; big edits and maor changes are possible.
+Setting up; big edits and major changes are possible.
 
 
 #### Copyright and authors
