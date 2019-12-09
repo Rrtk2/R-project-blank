@@ -11,6 +11,7 @@ if (!sum(c("R","input","output")%in% list.files(path = "./")) == 3){stop("Data s
 requiredpackages =
   c(
   "tools",
+  "gplots",
   "tidyverse",
   "limma"
   )
@@ -21,7 +22,7 @@ if (!requireNamespace("BiocManager", quietly = TRUE))
 
 for (i in requiredpackages) {
 	if (!requireNamespace(i, quietly = TRUE))
-		BiocManager::install(i, ask = F, dependencies = c("Depends", "Imports"))
+		BiocManager::install(i, ask = F)  # dependencies = c("Depends", "Imports")
 	require(as.character(i), character.only = TRUE)
 	#print(i)
 }
@@ -61,13 +62,13 @@ if (s_AutoImport){
 			
 		# Assign the data to the correct variable name
 		assign(x = as.character(substr(i, 1, nchar(i)-4)), value = temp_data)
+		
+		# Remove the temp_ files
+		rm(list=c("temp_data", "temp_Extension"))
 	}
 	
 	# Move out the input folder; back to root
 	setwd( "..")
-	
-	# Remove the temp_ files
-	rm(list=c("temp_data", "temp_Extension"))
 	
 	#SET UNIQUE DATA NAME TO UNIVERAL NAME
 	# Because 'data' will be used further; the uniquely extracted names need to be set to correct univeral names.

@@ -62,7 +62,7 @@ s_rootFolder = "D:/Github/R-project-blank/R-project"
 s_AutoImport = TRUE
 
 # s_maindataname can be set to the name of the to be selected main data; skips the selection step when loading data. Leave empty to select later.
-s_maindataname = "data_real"
+s_maindataname = ""#"data_real"
 
 #-----------------------------------------------------------------------------------------------------#
 #							WORKFLOW
