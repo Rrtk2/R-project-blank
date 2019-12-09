@@ -1,13 +1,19 @@
 #-----------------------------------------------------------------------------------------------------#
+#							Create QC folder
+#-----------------------------------------------------------------------------------------------------#
+temp_currentdir = "./output/graphics/qc/"
+suppressWarnings(dir.create(temp_currentdir))  # this one is silenced because it warns the user of existing folder
+
+#-----------------------------------------------------------------------------------------------------#
 # 							DATA INSPECTION
 #-----------------------------------------------------------------------------------------------------#
-
 # General info
-str(Data)
-colnames(Data)
-rownames(Data)
+str(mydata)
+colnames(mydata)
+rownames(mydata)
+summary(mydata)
 
-# Data is going to be fitted to a standardized structure:
+# mydata is going to be fitted to a standardized structure:
 # rownames 		- col1 		- col2 		- col3 		.. col_n 
 # nameSamples	- feature1 	- feature2	- feature3	.. feature_n
 # features can be things like groups, experimental treatment, time, replicates
@@ -16,11 +22,11 @@ rownames(Data)
 Pheno_df_Features = c("Time", "Replicate") # used to set name later
 
 # The structure defines colnames as features (thus samples)
-Pheno_df_Samples = colnames(Data)
+Pheno_df_Samples = colnames(mydata)
 
 # Create the Pheno_df_Features matrix 
 Pheno_df = as.data.frame(matrix(, nrow = length(Pheno_df_Samples), ncol = length(Pheno_df_Features)))
-rownames(Pheno_df) = colnames(Data)
+rownames(Pheno_df) = colnames(mydata)
 colnames(Pheno_df) = Pheno_df_Features
 
 # Find all the unique features per sample; required for colors and comparisson
@@ -34,10 +40,10 @@ RemoveID = c(which(Pheno_df[, 1] == ""))  # can be expanded using the c
 Pheno_df = Pheno_df[-RemoveID, ]
 
 # In this case this is likely the name;
-rownames(Data) = Data[,RemoveID]
+rownames(mydata) = mydata[,RemoveID]
 
-# This can be removed from Data and continue with numbers dataframe
-Data = Data[,-RemoveID]
+# This can be removed from mydata and continue with numbers dataframe
+mydata = mydata[,-RemoveID]
 
 
 #-----------------------------------------------------------------------------------------------------#
@@ -51,36 +57,183 @@ Data = Data[,-RemoveID]
 #cluster
 #pca
 
-# Make Boxplot (figure 1/7)
-#png(file = paste(results.folder, "/", loop.name, " ", "boxplot.png", sep = ""), 
-#width = 1024, height = 1024)
 
-boxplot(Data, col = Pheno_df[,@RRR, main = paste("boxplot"), las = 3)
+temp_PCA = prcomp(t(mydata))
 
-legend(x = "topright", legend = colnames(loop.object), 
-fill = as.factor(data.groups), cex = 0.9)
+for (i in 1:dim(Pheno_df)[2]){
+	# Make Boxplot
+	tryCatch({
+		reportervariable = 0
+		boxplot(mydata, col = Pheno_df[,i], main = paste("Boxplot of mydata;",colnames(Pheno_df)[i]), las = 3)
 
+	}, warning = function(w) {
+		assign("reportervariable", 1, envir = .GlobalEnv)
+	}, error = function(e) {
+	   assign("reportervariable", 1, envir = .GlobalEnv)
+	}, finally = {
+		if(reportervariable == 0){
+		
+		png(file = paste(temp_currentdir, "boxplot-",colnames(Pheno_df)[i],".png", sep = ""),	width = 1024, height = 1024)
+
+			boxplot(mydata, col = Pheno_df[,i], main = paste("Boxplot of mydata;",colnames(Pheno_df)[i]), las = 3)
+
+			legend(x = "topright", legend = unique(Pheno_df[,i]), 
+			fill = unique(Pheno_df[,i]), cex = 0.9)
+		
+		}
+		dev.off()
+	})
+
+
+
+	# Make PCA plot
+	tryCatch({
+		reportervariable = 0
+		print(autoplot(temp_PCA,scale = T,col=Pheno_df[,i], main = paste("PCA of mydata;",colnames(Pheno_df)[i])))
+
+	}, error = function(e) {
+	   assign("reportervariable", 1, envir = .GlobalEnv)
+	}, finally = {
+		if(reportervariable == 0){
+			
+			png(file = paste(temp_currentdir, "pca-",colnames(Pheno_df)[i],".png", sep = ""),	width = 1024, height = 1024)
+
+				print(autoplot(temp_PCA,scale = T,col=Pheno_df[,i], main = paste("PCA of mydata;",colnames(Pheno_df)[i]))) 
+		
+		}
+		dev.off()
+	})
 dev.off()
-  
-#
-## Density @RRR fix
-#plot(0, main=paste("Density histogram", sep=""), 
-#		cex.axis = 0.7, cex.lab=0.8, type="n", xlab="Value", ylab="Density")
-#		
-#for (s in 1:(dim(Data)[2])) {
-#    dens <- density(Data[,s])
-#	lines(dens, lwd=3)
-#}
-#
-## cor plot
-#    crp <- cor(Data, use="complete.obs", method="spearman")
-#	
-#	heatmap.2(crp)
 
-  
+}
+dev.off()
+
+#@RRR# Make PhenoCor plot !Only indicative!
+if(FALSE){
+	try({
+		png(file = paste(temp_currentdir, "pca-cor-Pheno",colnames(Pheno_df)[i],".png", sep = ""),	width = 1024, height = 1024)
+		
+		PCAResults = temp_PCA
+		
+		PCAtraits = Pheno_df
+		
+		CorPCATrait5 = cor(PCAResults$x[,c(1:5)],PCAtraits,use="pairwise.complete.obs")
+		
+		print(heatmap.2(CorPCATrait5, col=redgreen(100)))
+		dev.off()
+		
+	})
+}
+
+
+# Make Correlation plot
+try({
+	png(file = paste(temp_currentdir, "cor-",colnames(Pheno_df)[i],".png", sep = ""),	width = 1024, height = 1024)
+
+	print(corrplot(cor(mydata), type="upper"))
+	dev.off()
+})
+
+
+#-----------------------------------------------------------------------------#
+# Part 3 of 8 #NORMALIZE DATA
+#-----------------------------------------------------------------------------#
+# Normalize the dataset.
+mydataNorm <- normalizeQuantiles(mydata)
+
+
+
 #-----------------------------------------------------------------------------------------------------#
-#							Cleanup
+# 							POST QC
 #-----------------------------------------------------------------------------------------------------#
+## do this: @RRR
+#boxplot
+#density
+#MA
+#correl
+#cluster
+#pca
+
+
+temp_PCA = prcomp(t(mydataNorm))
+
+for (i in 1:dim(Pheno_df)[2]){
+	# Make Boxplot
+	tryCatch({
+		reportervariable = 0
+		boxplot(mydataNorm, col = Pheno_df[,i], main = paste("Boxplot of mydataNorm;",colnames(Pheno_df)[i]), las = 3)
+
+	}, warning = function(w) {
+		assign("reportervariable", 1, envir = .GlobalEnv)
+	}, error = function(e) {
+	   assign("reportervariable", 1, envir = .GlobalEnv)
+	}, finally = {
+		if(reportervariable == 0){
+		
+		png(file = paste(temp_currentdir, "norm-boxplot-",colnames(Pheno_df)[i],".png", sep = ""),	width = 1024, height = 1024)
+
+			boxplot(mydataNorm, col = Pheno_df[,i], main = paste("Boxplot of mydataNorm;",colnames(Pheno_df)[i]), las = 3)
+
+			legend(x = "topright", legend = unique(Pheno_df[,i]), 
+			fill = unique(Pheno_df[,i]), cex = 0.9)
+		
+		}
+		dev.off()
+	})
+
+
+
+	# Make PCA plot
+	tryCatch({
+		reportervariable = 0
+		print(autoplot(temp_PCA,scale = T,col=Pheno_df[,i], main = paste("PCA of mydataNorm;",colnames(Pheno_df)[i])))
+
+	}, error = function(e) {
+	   assign("reportervariable", 1, envir = .GlobalEnv)
+	}, finally = {
+		if(reportervariable == 0){
+			
+			png(file = paste(temp_currentdir, "norm-pca-",colnames(Pheno_df)[i],".png", sep = ""),	width = 1024, height = 1024)
+
+				print(autoplot(temp_PCA,scale = T,col=Pheno_df[,i], main = paste("PCA of mydataNorm;",colnames(Pheno_df)[i]))) 
+		
+		}
+		dev.off()
+	})
+dev.off()
+
+}
+dev.off()
+
+#@RRR# Make PhenoCor plot !Only indicative!
+if(FALSE){
+	try({
+		png(file = paste(temp_currentdir, "norm-pca-cor-Pheno",colnames(Pheno_df)[i],".png", sep = ""),	width = 1024, height = 1024)
+		
+		PCAResults = temp_PCA
+		
+		PCAtraits = Pheno_df
+		
+		CorPCATrait5 = cor(PCAResults$x[,c(1:5)],PCAtraits,use="pairwise.complete.obs")
+		
+		print(heatmap.2(CorPCATrait5, col=redgreen(100)))
+		dev.off()
+		
+	})
+}
+
+
+# Make Correlation plot
+try({
+	png(file = paste(temp_currentdir, "norm-cor-",colnames(Pheno_df)[i],".png", sep = ""),	width = 1024, height = 1024)
+
+	print(corrplot(cor(mydataNorm), type="upper"))
+	dev.off()
+})
+
+
+
+
 
 
 #-----------------------------------------------------------------------------------------------------#
