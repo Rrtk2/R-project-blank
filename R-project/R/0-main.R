@@ -62,11 +62,23 @@ s_rootFolder = "D:/Github/R-project-blank/R-project"
 s_AutoImport = TRUE
 
 # s_maindataname can be set to the name of the to be selected main data; skips the selection step when loading data. Leave empty to select later.
-s_maindataname = ""#"data_real"
+s_maindataname = "data_real"
 
 #-----------------------------------------------------------------------------------------------------#
 #							WORKFLOW
 #-----------------------------------------------------------------------------------------------------#
+
+#-----------------------------------------------------------------------------------------------------#
+# 										Make results folder
+#-----------------------------------------------------------------------------------------------------#
+
+## Make the "Results timestamp" folder
+#setwd('..')
+#root_dir <- getwd()
+#results_dir <- paste(root_dir,"/Results ",gsub(format(Sys.time(), "%x_%H.%M.%S"), pattern = #"/",replacement = "-"),sep="")
+#dir.create(file.path(results_dir))
+#dir.create(file.path(paste(results_dir,"/QC",sep="")))
+#setwd(results_dir)
 
 # Set the top root folder (/My-project)
 setwd(s_rootFolder)
