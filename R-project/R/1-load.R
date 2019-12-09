@@ -1,8 +1,12 @@
 #-----------------------------------------------------------------------------------------------------#
 #							CHECK IF IN CORRECT FOLDER
 #-----------------------------------------------------------------------------------------------------#
-if (!sum(c("R","input","output")%in% list.files(path = "./")) == 3){stop("Data structure does not contain required elements:'R','input','output'")}
+if (!sum(c("R","input")%in% list.files(path = "./")) == 2){stop("Data structure does not contain required elements:'R','input'")}
 
+# Create folders
+if (!c("output")%in% list.files(path = "./"))
+	dir.create("./output")
+	
 
 #-----------------------------------------------------------------------------------------------------#
 # 							(INSTALL &) LOAD PACKAGES
@@ -11,7 +15,10 @@ if (!sum(c("R","input","output")%in% list.files(path = "./")) == 3){stop("Data s
 requiredpackages =
   c(
   "tools",
+  "corrplot",
+  "devtools",
   "gplots",
+  "ggfortify",
   "tidyverse",
   "limma"
   )
@@ -86,7 +93,7 @@ if (s_AutoImport){
 	}
 
 # Store name in data
-Data = get(s_maindataname)
+mydata = get(s_maindataname)
 #@RRR MORE DATAs
 }
 
@@ -99,7 +106,7 @@ if (!s_AutoImport){
 	warning("make sure this part is correct!")
 	
 	# set the file to correct path
-	Data = read.delim("path/to/folder", header = T)
+	mydata = read.delim("path/to/folder", header = T)
 }
 
 
