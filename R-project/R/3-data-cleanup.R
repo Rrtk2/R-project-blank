@@ -62,77 +62,23 @@ temp_PCA = prcomp(t(mydata))
 
 for (i in 1:dim(Pheno_df)[2]){
 	# Make Boxplot
-	tryCatch({
-		reportervariable = 0
+	png(file = paste(temp_currentdir, "boxplot-",colnames(Pheno_df)[i],".png", sep = ""),	width = 1024, height = 1024)
 		boxplot(mydata, col = Pheno_df[,i], main = paste("Boxplot of mydata;",colnames(Pheno_df)[i]), las = 3)
-
-	}, warning = function(w) {
-		assign("reportervariable", 1, envir = .GlobalEnv)
-	}, error = function(e) {
-	   assign("reportervariable", 1, envir = .GlobalEnv)
-	}, finally = {
-		if(reportervariable == 0){
-		
-		png(file = paste(temp_currentdir, "boxplot-",colnames(Pheno_df)[i],".png", sep = ""),	width = 1024, height = 1024)
-
-			boxplot(mydata, col = Pheno_df[,i], main = paste("Boxplot of mydata;",colnames(Pheno_df)[i]), las = 3)
-
-			legend(x = "topright", legend = unique(Pheno_df[,i]), 
-			fill = unique(Pheno_df[,i]), cex = 0.9)
-		
-		}
-		dev.off()
-	})
-
-
+		legend(x = "topright", legend = unique(Pheno_df[,i]), 
+		fill = unique(Pheno_df[,i]), cex = 0.9)
+	dev.off()
 
 	# Make PCA plot
-	tryCatch({
-		reportervariable = 0
-		print(autoplot(temp_PCA,scale = T,col=Pheno_df[,i], main = paste("PCA of mydata;",colnames(Pheno_df)[i])))
-
-	}, error = function(e) {
-	   assign("reportervariable", 1, envir = .GlobalEnv)
-	}, finally = {
-		if(reportervariable == 0){
-			
-			png(file = paste(temp_currentdir, "pca-",colnames(Pheno_df)[i],".png", sep = ""),	width = 1024, height = 1024)
-
-				print(autoplot(temp_PCA,scale = T,col=Pheno_df[,i], main = paste("PCA of mydata;",colnames(Pheno_df)[i]))) 
-		
-		}
-		dev.off()
-	})
-dev.off()
-
+	png(file = paste(temp_currentdir, "pca-",colnames(Pheno_df)[i],".png", sep = ""),	width = 1024, height = 1024)
+		print(autoplot(temp_PCA,scale = T,col=Pheno_df[,i], main = paste("PCA of mydata;",colnames(Pheno_df)[i]))) 
+	dev.off()
 }
-dev.off()
-
-#@RRR# Make PhenoCor plot !Only indicative!
-if(FALSE){
-	try({
-		png(file = paste(temp_currentdir, "pca-cor-Pheno",colnames(Pheno_df)[i],".png", sep = ""),	width = 1024, height = 1024)
-		
-		PCAResults = temp_PCA
-		
-		PCAtraits = Pheno_df
-		
-		CorPCATrait5 = cor(PCAResults$x[,c(1:5)],PCAtraits,use="pairwise.complete.obs")
-		
-		print(heatmap.2(CorPCATrait5, col=redgreen(100)))
-		dev.off()
-		
-	})
-}
-
 
 # Make Correlation plot
-try({
-	png(file = paste(temp_currentdir, "cor-",colnames(Pheno_df)[i],".png", sep = ""),	width = 1024, height = 1024)
-
+png(file = paste(temp_currentdir, "correlation plot.png", sep = ""),	width = 1024, height = 1024)
 	print(corrplot(cor(mydata), type="upper"))
-	dev.off()
-})
+dev.off()
+
 
 
 #-----------------------------------------------------------------------------#
@@ -159,83 +105,31 @@ temp_PCA = prcomp(t(mydataNorm))
 
 for (i in 1:dim(Pheno_df)[2]){
 	# Make Boxplot
-	tryCatch({
-		reportervariable = 0
+	png(file = paste(temp_currentdir, "boxplot-",colnames(Pheno_df)[i],".png", sep = ""),	width = 1024, height = 1024)
 		boxplot(mydataNorm, col = Pheno_df[,i], main = paste("Boxplot of mydataNorm;",colnames(Pheno_df)[i]), las = 3)
-
-	}, warning = function(w) {
-		assign("reportervariable", 1, envir = .GlobalEnv)
-	}, error = function(e) {
-	   assign("reportervariable", 1, envir = .GlobalEnv)
-	}, finally = {
-		if(reportervariable == 0){
-		
-		png(file = paste(temp_currentdir, "norm-boxplot-",colnames(Pheno_df)[i],".png", sep = ""),	width = 1024, height = 1024)
-
-			boxplot(mydataNorm, col = Pheno_df[,i], main = paste("Boxplot of mydataNorm;",colnames(Pheno_df)[i]), las = 3)
-
-			legend(x = "topright", legend = unique(Pheno_df[,i]), 
-			fill = unique(Pheno_df[,i]), cex = 0.9)
-		
-		}
-		dev.off()
-	})
-
-
+		legend(x = "topright", legend = unique(Pheno_df[,i]), 
+		fill = unique(Pheno_df[,i]), cex = 0.9)
+	dev.off()
 
 	# Make PCA plot
-	tryCatch({
-		reportervariable = 0
-		print(autoplot(temp_PCA,scale = T,col=Pheno_df[,i], main = paste("PCA of mydataNorm;",colnames(Pheno_df)[i])))
-
-	}, error = function(e) {
-	   assign("reportervariable", 1, envir = .GlobalEnv)
-	}, finally = {
-		if(reportervariable == 0){
-			
-			png(file = paste(temp_currentdir, "norm-pca-",colnames(Pheno_df)[i],".png", sep = ""),	width = 1024, height = 1024)
-
-				print(autoplot(temp_PCA,scale = T,col=Pheno_df[,i], main = paste("PCA of mydataNorm;",colnames(Pheno_df)[i]))) 
-		
-		}
-		dev.off()
-	})
-dev.off()
-
+	png(file = paste(temp_currentdir, "pca-",colnames(Pheno_df)[i],".png", sep = ""),	width = 1024, height = 1024)
+		print(autoplot(temp_PCA,scale = T,col=Pheno_df[,i], main = paste("PCA of mydataNorm;",colnames(Pheno_df)[i]))) 
+	dev.off()
 }
-dev.off()
-
-#@RRR# Make PhenoCor plot !Only indicative!
-if(FALSE){
-	try({
-		png(file = paste(temp_currentdir, "norm-pca-cor-Pheno",colnames(Pheno_df)[i],".png", sep = ""),	width = 1024, height = 1024)
-		
-		PCAResults = temp_PCA
-		
-		PCAtraits = Pheno_df
-		
-		CorPCATrait5 = cor(PCAResults$x[,c(1:5)],PCAtraits,use="pairwise.complete.obs")
-		
-		print(heatmap.2(CorPCATrait5, col=redgreen(100)))
-		dev.off()
-		
-	})
-}
-
 
 # Make Correlation plot
-try({
-	png(file = paste(temp_currentdir, "norm-cor-",colnames(Pheno_df)[i],".png", sep = ""),	width = 1024, height = 1024)
-
+png(file = paste(temp_currentdir, "correlation plot.png", sep = ""),	width = 1024, height = 1024)
 	print(corrplot(cor(mydataNorm), type="upper"))
-	dev.off()
-})
-
-
-
+dev.off()
 
 
 
 #-----------------------------------------------------------------------------------------------------#
-# 							post QC
+#							Remove temp_ files/variables
 #-----------------------------------------------------------------------------------------------------#
+# Detect all variables and remove
+rm(list = ls()[grep("temp_",x = ls())])
+
+
+
+
