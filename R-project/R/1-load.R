@@ -18,7 +18,7 @@ if (!c("output")%in% list.files(path = "./"))
 if (!requireNamespace("BiocManager", quietly = TRUE))
   install.packages("BiocManager", ask = F)
 
-for (i in requiredpackages) {
+for (i in s_requiredpackages) {
 	if (!requireNamespace(i, quietly = TRUE))
 		BiocManager::install(i, ask = F)  # dependencies = c("Depends", "Imports")
 	require(as.character(i), character.only = TRUE)

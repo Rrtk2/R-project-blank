@@ -2,7 +2,8 @@
 #							Create QC folder
 #-----------------------------------------------------------------------------------------------------#
 temp_currentdir = "./output/graphics/qc/"
-suppressWarnings(dir.create(temp_currentdir))  # this one is silenced because it warns the user of existing folder
+suppressWarnings(dir.create("./output/graphics/")) 
+suppressWarnings(dir.create("./output/graphics/qc/"))  # this one is silenced because it warns the user of existing folder
 
 #-----------------------------------------------------------------------------------------------------#
 # 							DATA INSPECTION
