@@ -69,9 +69,6 @@ if (s_AutoImport){
 			
 		# Assign the data to the correct variable name
 		assign(x = as.character(substr(i, 1, nchar(i)-4)), value = temp_data)
-		
-		# Remove the temp_ files
-		rm(list=c("temp_data", "temp_Extension"))
 	}
 	
 	# Move out the input folder; back to root
@@ -110,6 +107,11 @@ if (!s_AutoImport){
 }
 
 
+#-----------------------------------------------------------------------------------------------------#
+#							Remove temp_ files/variables
+#-----------------------------------------------------------------------------------------------------#
+# Detect all variables and remove
+rm(list = ls()[grep("temp_",x = ls())])
 
 
 
