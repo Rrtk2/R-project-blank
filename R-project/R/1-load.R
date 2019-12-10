@@ -72,7 +72,7 @@ if (s_AutoImport){
 	}
 	
 	# Move out the input folder; back to root
-	setwd( "..")
+	setwd("..")
 	
 	#SET UNIQUE DATA NAME TO UNIVERAL NAME
 	# Because 'data' will be used further; the uniquely extracted names need to be set to correct univeral names.
