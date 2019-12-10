@@ -44,3 +44,9 @@ hist(temptable$logFC,xlab="log2FC",main =
 paste("log2FC histogram of group ",i,"- 0"))
 
 dev.off()
+
+#-----------------------------------------------------------------------------------------------------#
+#							Remove temp_ files/variables
+#-----------------------------------------------------------------------------------------------------#
+# Detect all variables and remove
+rm(list = ls()[grep("temp_",x = ls())])
