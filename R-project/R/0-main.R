@@ -47,7 +47,7 @@
 #-----------------------------------------------------------------------------------------------------#
 # 							SETTINGS
 #-----------------------------------------------------------------------------------------------------#
-# All settings should have an lowercase & underscore prefix (s_Settingvariable1)
+# All settings should have an lowercase & underscore prefix (s_Settingvariable)
 # General settings
 options(stringsAsFactors = F)
 
@@ -63,6 +63,23 @@ s_AutoImport = TRUE
 
 # s_maindataname can be set to the name of the to be selected main data; skips the selection step when loading data. Leave empty to select later.
 s_maindataname = "data_real"
+
+# Sizes of the images (1024 might be too big)
+s_width = 1024/2
+s_height = 1024/2
+
+# list of packages required:
+s_requiredpackages =
+  c(
+  "tools",
+  "corrplot",
+  "devtools",
+  "gplots",
+  "ggfortify",
+  "tidyverse",
+  "limma"
+  )
+
 
 #-----------------------------------------------------------------------------------------------------#
 #							WORKFLOW

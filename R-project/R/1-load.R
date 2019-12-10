@@ -12,16 +12,7 @@ if (!c("output")%in% list.files(path = "./"))
 # 							(INSTALL &) LOAD PACKAGES
 #-----------------------------------------------------------------------------------------------------#
 # Insert all packages in requiredpackages
-requiredpackages =
-  c(
-  "tools",
-  "corrplot",
-  "devtools",
-  "gplots",
-  "ggfortify",
-  "tidyverse",
-  "limma"
-  )
+# s_requiredpackages = s_requiredpackages  # Redundant
 
 # Install packages if needed and load, or just load packages
 if (!requireNamespace("BiocManager", quietly = TRUE))
@@ -91,6 +82,10 @@ if (s_AutoImport){
 
 # Store name in data
 mydata = get(s_maindataname)
+
+# Remove original variable to save space
+rm(list=s_maindataname)
+
 #@RRR MORE DATAs
 }
 
