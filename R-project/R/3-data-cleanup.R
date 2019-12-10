@@ -61,6 +61,7 @@ mydata = mydata[,-RemoveID]
 temp_PCA = prcomp(t(mydata))
 
 for (i in 1:dim(Pheno_df)[2]){
+i=1  # overwrite @RRR
 	# Make Boxplot
 	png(file = paste(temp_currentdir, "boxplot-",colnames(Pheno_df)[i],".png", sep = ""),	width = 1024, height = 1024)
 		boxplot(mydata, col = Pheno_df[,i], main = paste("Boxplot of mydata;",colnames(Pheno_df)[i]), las = 3)
@@ -104,21 +105,22 @@ mydataNorm <- normalizeQuantiles(mydata)
 temp_PCA = prcomp(t(mydataNorm))
 
 for (i in 1:dim(Pheno_df)[2]){
+i=1  # overwrite @RRR
 	# Make Boxplot
-	png(file = paste(temp_currentdir, "boxplot-",colnames(Pheno_df)[i],".png", sep = ""),	width = 1024, height = 1024)
+	png(file = paste(temp_currentdir, "boxplot-",colnames(Pheno_df)[i],"-normalized.png", sep = ""),	width = 1024, height = 1024)
 		boxplot(mydataNorm, col = Pheno_df[,i], main = paste("Boxplot of mydataNorm;",colnames(Pheno_df)[i]), las = 3)
 		legend(x = "topright", legend = unique(Pheno_df[,i]), 
 		fill = unique(Pheno_df[,i]), cex = 0.9)
 	dev.off()
 
 	# Make PCA plot
-	png(file = paste(temp_currentdir, "pca-",colnames(Pheno_df)[i],".png", sep = ""),	width = 1024, height = 1024)
+	png(file = paste(temp_currentdir, "pca-",colnames(Pheno_df)[i],"-normalized.png", sep = ""),	width = 1024, height = 1024)
 		print(autoplot(temp_PCA,scale = T,col=Pheno_df[,i], main = paste("PCA of mydataNorm;",colnames(Pheno_df)[i]))) 
 	dev.off()
 }
 
 # Make Correlation plot
-png(file = paste(temp_currentdir, "correlation plot.png", sep = ""),	width = 1024, height = 1024)
+png(file = paste(temp_currentdir, "correlation plot-normalized.png", sep = ""),	width = 1024, height = 1024)
 	print(corrplot(cor(mydataNorm), type="upper"))
 dev.off()
 
